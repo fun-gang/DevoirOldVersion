@@ -144,7 +144,7 @@ public class Controller : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D collision) {
+    void OnTriggerStay2D(Collider2D collision) {
         if (collision.gameObject.tag == "Interactive") {
             if (collision.gameObject.GetComponent<Gun>() != null) {
                 actingObject = collision.gameObject;

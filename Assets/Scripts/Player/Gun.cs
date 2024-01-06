@@ -11,12 +11,14 @@ public class Gun : MonoBehaviour {
     public GameObject fireSound;
     private bool isPicked = false;
     private Transform player;
+    private Transform gunPos;
     public Transform origin;
     public LayerMask groundLayer;
 
 
     void Start() {
-        player = GameObject.Find("GunPos").transform;
+        player = GameObject.Find("Player").transform;
+        gunPos = GameObject.Find("GunPos").transform;
     }
 
     public void Act() {
@@ -27,7 +29,8 @@ public class Gun : MonoBehaviour {
             }
         }
         else {
-            transform.parent = player;
+            transform.localScale = player.localScale;
+            transform.parent = gunPos;
             transform.localPosition = Vector3.zero;
             isPicked = true;
         }
