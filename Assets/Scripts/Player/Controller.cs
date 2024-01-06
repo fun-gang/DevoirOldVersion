@@ -16,7 +16,6 @@ public class Controller : MonoBehaviour
     // Components
     private Animator anim;
     private Rigidbody2D rb = null;
-    private Gun gun;
     private MenuDrop menuDrop;
     private CinemachineVirtualCamera cmv;
 
@@ -29,19 +28,20 @@ public class Controller : MonoBehaviour
     public LayerMask groundLayer;
     public static bool control; // Variable for cutscenes => Turn off/on movement ability
     private bool alive;
+    private GameObject actingObject = null;
     private Animator deathAnim;
 
     public Transform particleOrigin;
     public BoxRay groundRay;
     public SegmentRay stepRay;
     public GameObject[] deathEffects;
-    public GameObject[] winParticles;
 
     [Tooltip ("Max time beetween input and jump")] public float bufferingTime = 0.1f;
     public float stepHeight = 0.1f;
     private float jumpPressTime = float.NegativeInfinity;
 
     private List<Platform> contactedPlatforms;
+
     
     // Effects && Sounds
     public GameObject GroundEffect;
@@ -53,7 +53,6 @@ public class Controller : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         contactedPlatforms = new List<Platform> ();
         control = alive = true;
-        gun = gameObject.GetComponent<Gun>();
         menuDrop = GameObject.FindGameObjectWithTag("MenuDrop").GetComponent<MenuDrop>();
         deathAnim = GameObject.FindGameObjectWithTag("DeathAnim").GetComponent<Animator>();
         cmv = GameObject.FindGameObjectWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
@@ -143,10 +142,30 @@ public class Controller : MonoBehaviour
             alive = false;
             StartCoroutine(DeathAnim());
         }
+    }
 
-        if (collision.gameObject.tag == "Finish") {
-            alive = false;
-            StartCoroutine(WinAnim());
+    void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.gameObject.tag == "Interactive") {
+            if (collision.gameObject.GetComponent<Gun>() != null) {
+                actingObject = collision.gameObject;
+            }
+            else if (collision.gameObject.GetComponent<CarryingObject>() != null) {
+                actingObject = collision.gameObject;
+            }
+            else actingObject = collision.gameObject;
+        }
+    }
+
+    private void Act(InputAction.CallbackContext value) {
+        if (actingObject != null) {
+            actingObject.SendMessage("Act");
+        }
+    }
+
+    private void Put(InputAction.CallbackContext value) {
+        if (actingObject != null) {
+            actingObject.SendMessage("Stop");
+            actingObject = null;
         }
     }
 
@@ -159,22 +178,15 @@ public class Controller : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    IEnumerator WinAnim() {
-        for (int i = 0; i < winParticles.Length; i++) {
-            Instantiate(winParticles[i], transform.position, transform.rotation);
-        }
-        deathAnim.Play("Close");
-        yield return new WaitForSeconds(5f);
-        
-        int currSceneInd = SceneManager.GetActiveScene().buildIndex;
-        currSceneInd++;
-        if (currSceneInd >= SceneManager.sceneCountInBuildSettings) currSceneInd = 0;
-        SceneManager.LoadScene(currSceneInd);
-    }
-
     void OnCollisionExit2D(Collision2D collision) {
         if (collision.gameObject.TryGetComponent<Platform> (out Platform platform)) {
             contactedPlatforms.Remove (platform);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision) {
+        if (collision.gameObject.tag == "Interactive") {
+            actingObject = null;
         }
     }
 
@@ -188,7 +200,8 @@ public class Controller : MonoBehaviour
         controls.Player.Move.canceled += OnMoveCanceled;
         controls.Player.Jump.performed += PressJump;
         controls.Player.Jump.canceled += ReleaseJump;
-        controls.Player.Act.performed += gun.PlayerFire;
+        controls.Player.Act.performed += Act;
+        controls.Player.Put.performed += Put;
         controls.Player.Exit.performed += menuDrop.OpenPanel;
     }
 

@@ -24,6 +24,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Act",
+                    "type": "Button",
+                    "id": "b72279cf-5781-4fb2-9824-4d16b725e1ec",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Exit",
                     "type": "Button",
                     "id": "447375fe-59da-46ac-8008-985dad22d8eb",
@@ -33,9 +42,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Act",
+                    "name": "Put",
                     "type": "Button",
-                    "id": "b72279cf-5781-4fb2-9824-4d16b725e1ec",
+                    "id": "559ffa42-897a-47ca-8e25-31a553600aea",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -227,6 +236,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Act",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "08195da3-edef-45d3-8516-5a4e156ecbc9",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Put",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f0fba6a3-db8a-4a95-acee-36e81316e8b6",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Put",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

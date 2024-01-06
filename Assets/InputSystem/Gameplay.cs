@@ -46,6 +46,15 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Act"",
+                    ""type"": ""Button"",
+                    ""id"": ""b72279cf-5781-4fb2-9824-4d16b725e1ec"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Exit"",
                     ""type"": ""Button"",
                     ""id"": ""447375fe-59da-46ac-8008-985dad22d8eb"",
@@ -55,9 +64,9 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Act"",
+                    ""name"": ""Put"",
                     ""type"": ""Button"",
-                    ""id"": ""b72279cf-5781-4fb2-9824-4d16b725e1ec"",
+                    ""id"": ""559ffa42-897a-47ca-8e25-31a553600aea"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -249,6 +258,28 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Act"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""08195da3-edef-45d3-8516-5a4e156ecbc9"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Put"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f0fba6a3-db8a-4a95-acee-36e81316e8b6"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Put"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -799,8 +830,9 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_Exit = m_Player.FindAction("Exit", throwIfNotFound: true);
         m_Player_Act = m_Player.FindAction("Act", throwIfNotFound: true);
+        m_Player_Exit = m_Player.FindAction("Exit", throwIfNotFound: true);
+        m_Player_Put = m_Player.FindAction("Put", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -876,16 +908,18 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_Exit;
     private readonly InputAction m_Player_Act;
+    private readonly InputAction m_Player_Exit;
+    private readonly InputAction m_Player_Put;
     public struct PlayerActions
     {
         private @Gameplay m_Wrapper;
         public PlayerActions(@Gameplay wrapper) { m_Wrapper = wrapper; }
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Move => m_Wrapper.m_Player_Move;
-        public InputAction @Exit => m_Wrapper.m_Player_Exit;
         public InputAction @Act => m_Wrapper.m_Player_Act;
+        public InputAction @Exit => m_Wrapper.m_Player_Exit;
+        public InputAction @Put => m_Wrapper.m_Player_Put;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -901,12 +935,15 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
-            @Exit.started += instance.OnExit;
-            @Exit.performed += instance.OnExit;
-            @Exit.canceled += instance.OnExit;
             @Act.started += instance.OnAct;
             @Act.performed += instance.OnAct;
             @Act.canceled += instance.OnAct;
+            @Exit.started += instance.OnExit;
+            @Exit.performed += instance.OnExit;
+            @Exit.canceled += instance.OnExit;
+            @Put.started += instance.OnPut;
+            @Put.performed += instance.OnPut;
+            @Put.canceled += instance.OnPut;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -917,12 +954,15 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
-            @Exit.started -= instance.OnExit;
-            @Exit.performed -= instance.OnExit;
-            @Exit.canceled -= instance.OnExit;
             @Act.started -= instance.OnAct;
             @Act.performed -= instance.OnAct;
             @Act.canceled -= instance.OnAct;
+            @Exit.started -= instance.OnExit;
+            @Exit.performed -= instance.OnExit;
+            @Exit.canceled -= instance.OnExit;
+            @Put.started -= instance.OnPut;
+            @Put.performed -= instance.OnPut;
+            @Put.canceled -= instance.OnPut;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1062,8 +1102,9 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
     {
         void OnJump(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
-        void OnExit(InputAction.CallbackContext context);
         void OnAct(InputAction.CallbackContext context);
+        void OnExit(InputAction.CallbackContext context);
+        void OnPut(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

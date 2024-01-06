@@ -13,6 +13,7 @@ TagManager:
   - MovingPlatform
   - Box
   - DeathAnim
+  - Interactive
   layers:
   - Default
   - TransparentFX
