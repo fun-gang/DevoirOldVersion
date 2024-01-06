@@ -24,15 +24,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Fire",
-                    "type": "Button",
-                    "id": "604ed902-3700-438a-bbc6-c9ff191baf82",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Exit",
                     "type": "Button",
                     "id": "447375fe-59da-46ac-8008-985dad22d8eb",
@@ -42,18 +33,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Program",
+                    "name": "Act",
                     "type": "Button",
-                    "id": "34d2d061-3ccd-4f84-972d-f243a0d05e3d",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Spec",
-                    "type": "Button",
-                    "id": "179c2c4e-fa4c-434d-89b1-afe9e02e4f75",
+                    "id": "b72279cf-5781-4fb2-9824-4d16b725e1ec",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -206,28 +188,6 @@
                 },
                 {
                     "name": "",
-                    "id": "94adef31-e02e-40bd-9172-6ba8c2a6b444",
-                    "path": "<Keyboard>/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9ae018a0-50e8-48c7-aed9-927b89f7d638",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "077d8b12-d968-4a29-b308-c370e305a1b2",
                     "path": "<Gamepad>/start",
                     "interactions": "",
@@ -250,45 +210,23 @@
                 },
                 {
                     "name": "",
-                    "id": "42b184a9-3cd7-408a-ae56-3a331b0746e9",
-                    "path": "<Keyboard>/shift",
+                    "id": "35a288fb-2c0e-4430-abe1-a62459e7af2e",
+                    "path": "<Keyboard>/x",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Program",
+                    "action": "Act",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "ed2687fc-c442-497f-a3c2-9e6dc84d14b9",
-                    "path": "<Gamepad>/rightTrigger",
+                    "id": "46615a75-0b02-4c87-b4bc-4f673b6b61d2",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Program",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d558d73d-2a8f-4593-a3cf-38e214124419",
-                    "path": "<Keyboard>/tab",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Spec",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8f18adc7-dd11-4e00-ae40-5ba220f875b2",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Spec",
+                    "action": "Act",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -46,15 +46,6 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Fire"",
-                    ""type"": ""Button"",
-                    ""id"": ""604ed902-3700-438a-bbc6-c9ff191baf82"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Exit"",
                     ""type"": ""Button"",
                     ""id"": ""447375fe-59da-46ac-8008-985dad22d8eb"",
@@ -64,18 +55,9 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Program"",
+                    ""name"": ""Act"",
                     ""type"": ""Button"",
-                    ""id"": ""34d2d061-3ccd-4f84-972d-f243a0d05e3d"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Spec"",
-                    ""type"": ""Button"",
-                    ""id"": ""179c2c4e-fa4c-434d-89b1-afe9e02e4f75"",
+                    ""id"": ""b72279cf-5781-4fb2-9824-4d16b725e1ec"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -228,28 +210,6 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""94adef31-e02e-40bd-9172-6ba8c2a6b444"",
-                    ""path"": ""<Keyboard>/x"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9ae018a0-50e8-48c7-aed9-927b89f7d638"",
-                    ""path"": ""<Gamepad>/buttonWest"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""077d8b12-d968-4a29-b308-c370e305a1b2"",
                     ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
@@ -272,45 +232,23 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""42b184a9-3cd7-408a-ae56-3a331b0746e9"",
-                    ""path"": ""<Keyboard>/shift"",
+                    ""id"": ""35a288fb-2c0e-4430-abe1-a62459e7af2e"",
+                    ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Program"",
+                    ""action"": ""Act"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""ed2687fc-c442-497f-a3c2-9e6dc84d14b9"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""id"": ""46615a75-0b02-4c87-b4bc-4f673b6b61d2"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Program"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d558d73d-2a8f-4593-a3cf-38e214124419"",
-                    ""path"": ""<Keyboard>/tab"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Spec"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8f18adc7-dd11-4e00-ae40-5ba220f875b2"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Spec"",
+                    ""action"": ""Act"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -861,10 +799,8 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Exit = m_Player.FindAction("Exit", throwIfNotFound: true);
-        m_Player_Program = m_Player.FindAction("Program", throwIfNotFound: true);
-        m_Player_Spec = m_Player.FindAction("Spec", throwIfNotFound: true);
+        m_Player_Act = m_Player.FindAction("Act", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -940,20 +876,16 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Exit;
-    private readonly InputAction m_Player_Program;
-    private readonly InputAction m_Player_Spec;
+    private readonly InputAction m_Player_Act;
     public struct PlayerActions
     {
         private @Gameplay m_Wrapper;
         public PlayerActions(@Gameplay wrapper) { m_Wrapper = wrapper; }
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Move => m_Wrapper.m_Player_Move;
-        public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Exit => m_Wrapper.m_Player_Exit;
-        public InputAction @Program => m_Wrapper.m_Player_Program;
-        public InputAction @Spec => m_Wrapper.m_Player_Spec;
+        public InputAction @Act => m_Wrapper.m_Player_Act;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -969,18 +901,12 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
-            @Fire.started += instance.OnFire;
-            @Fire.performed += instance.OnFire;
-            @Fire.canceled += instance.OnFire;
             @Exit.started += instance.OnExit;
             @Exit.performed += instance.OnExit;
             @Exit.canceled += instance.OnExit;
-            @Program.started += instance.OnProgram;
-            @Program.performed += instance.OnProgram;
-            @Program.canceled += instance.OnProgram;
-            @Spec.started += instance.OnSpec;
-            @Spec.performed += instance.OnSpec;
-            @Spec.canceled += instance.OnSpec;
+            @Act.started += instance.OnAct;
+            @Act.performed += instance.OnAct;
+            @Act.canceled += instance.OnAct;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -991,18 +917,12 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
-            @Fire.started -= instance.OnFire;
-            @Fire.performed -= instance.OnFire;
-            @Fire.canceled -= instance.OnFire;
             @Exit.started -= instance.OnExit;
             @Exit.performed -= instance.OnExit;
             @Exit.canceled -= instance.OnExit;
-            @Program.started -= instance.OnProgram;
-            @Program.performed -= instance.OnProgram;
-            @Program.canceled -= instance.OnProgram;
-            @Spec.started -= instance.OnSpec;
-            @Spec.performed -= instance.OnSpec;
-            @Spec.canceled -= instance.OnSpec;
+            @Act.started -= instance.OnAct;
+            @Act.performed -= instance.OnAct;
+            @Act.canceled -= instance.OnAct;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1142,10 +1062,8 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
     {
         void OnJump(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
-        void OnFire(InputAction.CallbackContext context);
         void OnExit(InputAction.CallbackContext context);
-        void OnProgram(InputAction.CallbackContext context);
-        void OnSpec(InputAction.CallbackContext context);
+        void OnAct(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
