@@ -12,21 +12,38 @@ public class Drone : MonoBehaviour
     private bool isActive = false;
     public int speed;
 
+    private BoxCollider2D boxColl;
+    private Transform botPos;
+    public LayerMask groundLayer;
+    public Transform origin;
     void Start() {
         rb = gameObject.GetComponent<Rigidbody2D>();
+        boxColl = gameObject.GetComponent<BoxCollider2D>();
         cmv = GameObject.FindGameObjectWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
         player = GameObject.Find("Player");
+        botPos = GameObject.Find("BoxPos").transform;
+        ChangePhysics(true);
     }
     public void Act() {
+        transform.position = botPos.position;
         isActive = true;
         cmv.Follow = transform;
         Controller.control = false;
+        ChangePhysics(false);
     }
 
     public void Stop() {
         isActive = false;
         cmv.Follow = player.transform;
         Controller.control = true;
+        ChangePhysics(true);
+        rb.velocity = movement = Vector2.zero;
+
+        RaycastHit2D ray;
+        ray = Physics2D.Raycast(origin.position, Vector2.down, 100, groundLayer); 
+        if (ray != null) {
+            transform.position = new Vector3(transform.position.x, transform.position.y - ray.distance, 0);
+        }
     }
     private void FixedUpdate()
     {
@@ -42,5 +59,11 @@ public class Drone : MonoBehaviour
     
     public void Repair() {
         Debug.Log("repair");
+    }
+
+    private void ChangePhysics(bool toStatic) {
+        if (toStatic == true) rb.bodyType = RigidbodyType2D.Kinematic;
+        else rb.bodyType = RigidbodyType2D.Dynamic;
+        boxColl.isTrigger = toStatic;
     }
 }
