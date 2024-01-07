@@ -10,7 +10,7 @@ public class Controller : MonoBehaviour
 {
     // Input system
     private Gameplay controls = null;
-    private Vector2 movement = Vector2.zero;
+    [HideInInspector] public Vector2 movement = Vector2.zero;
 
 
     // Components
@@ -29,6 +29,7 @@ public class Controller : MonoBehaviour
     public static bool control; // Variable for cutscenes => Turn off/on movement ability
     private bool alive;
     private GameObject actingObject = null;
+    private bool isActing = false;
     private Animator deathAnim;
 
     public Transform particleOrigin;
@@ -145,7 +146,7 @@ public class Controller : MonoBehaviour
     }
 
     void OnTriggerStay2D(Collider2D collision) {
-        if (collision.gameObject.tag == "Interactive") {
+        if (collision.gameObject.tag == "Interactive" && !isActing) {
             if (collision.gameObject.GetComponent<Gun>() != null) {
                 actingObject = collision.gameObject;
             }
@@ -158,7 +159,11 @@ public class Controller : MonoBehaviour
 
     private void Act(InputAction.CallbackContext value) {
         if (actingObject != null) {
-            actingObject.SendMessage("Act");
+            if (actingObject.GetComponent<Drone>() != null && control == false) {
+                actingObject.SendMessage("Repair");
+            }
+            else actingObject.SendMessage("Act");
+            isActing = true;
         }
     }
 
@@ -166,6 +171,7 @@ public class Controller : MonoBehaviour
         if (actingObject != null) {
             actingObject.SendMessage("Stop");
             actingObject = null;
+            isActing = false;
         }
     }
 
@@ -185,7 +191,7 @@ public class Controller : MonoBehaviour
     }
 
     void OnTriggerExit2D(Collider2D collision) {
-        if (collision.gameObject.tag == "Interactive") {
+        if (collision.gameObject.tag == "Interactive" && !isActing) {
             actingObject = null;
         }
     }

@@ -1,12 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Cinemachine;
 
 public class Drone : MonoBehaviour
 {
-    private Gameplay controls = null;
     private Vector2 movement = Vector2.zero;
     private Rigidbody2D rb = null;
     private CinemachineVirtualCamera cmv;
@@ -15,7 +13,6 @@ public class Drone : MonoBehaviour
     public int speed;
 
     void Start() {
-        controls = new Gameplay();
         rb = gameObject.GetComponent<Rigidbody2D>();
         cmv = GameObject.FindGameObjectWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
         player = GameObject.Find("Player");
@@ -37,29 +34,13 @@ public class Drone : MonoBehaviour
     }
 
     private void MovePlayer () {
-        if (movement.x != 0) {
-            if (movement.x > 0) transform.localScale = new Vector3(0,180,0);
-            else transform.localScale = new Vector3(0,0,0);
-        }
-        rb.velocity = new Vector2(movement.x * speed * Time.fixedDeltaTime * 10, rb.velocity.y);
+        movement = player.GetComponent<Controller>().movement;
+        if (movement.x > 0) transform.rotation = Quaternion.Euler(0, 0, 0);
+        if (movement.x < 0) transform.rotation = Quaternion.Euler(0, 180, 0);
+        rb.velocity = new Vector2(movement.x * speed * Time.fixedDeltaTime * 10, movement.y * speed * Time.fixedDeltaTime * 5);
     }
-    private void OnMovePerformed(InputAction.CallbackContext value) => movement = value.ReadValue<Vector2>();
-    private void OnMoveCanceled(InputAction.CallbackContext value) => movement = Vector2.zero;
     
-    private void Repair(InputAction.CallbackContext value) {
+    public void Repair() {
         Debug.Log("repair");
-    }
-
-    private void OnEnable() {
-        controls.Enable();
-        controls.Player.Move.performed += OnMovePerformed;
-        controls.Player.Move.canceled += OnMoveCanceled;
-        controls.Player.Act.performed += Repair;
-    }
-
-    private void OnDisable() {
-        controls.Disable();
-        controls.Player.Move.performed -= OnMovePerformed;
-        controls.Player.Move.canceled -= OnMoveCanceled;
     }
 }
