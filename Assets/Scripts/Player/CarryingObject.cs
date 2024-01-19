@@ -12,6 +12,8 @@ public class CarryingObject : MonoBehaviour
     private BoxCollider2D boxColl;
     public LayerMask groundLayer;
     public Transform origin;
+    private CircleCollider2D ccol;
+
     void Start() {
         player = GameObject.Find("Player");
         boxPos = GameObject.Find("BoxPos").transform;
@@ -20,12 +22,15 @@ public class CarryingObject : MonoBehaviour
         boxColl = gameObject.GetComponent<BoxCollider2D>();
 
         boxColl.isTrigger = true;
+        ccol = gameObject.GetComponent<CircleCollider2D>();
     }
 
     public void Act() {
+        player.GetComponent<Controller>().playerSpeed /= 2.5f;
         transform.parent = boxPos;
         transform.localPosition = Vector2.zero;
         boxColl.isTrigger = false;
+        ccol.enabled = true;
     }
 
     public void Stop() {
@@ -37,6 +42,7 @@ public class CarryingObject : MonoBehaviour
         ray = Physics2D.Raycast(origin.position, Vector2.down, 100, groundLayer); 
         if (ray != null) {
             transform.position = new Vector3(transform.position.x, transform.position.y - ray.distance, 0);
+            ccol.enabled = false;
         }
     }
 }

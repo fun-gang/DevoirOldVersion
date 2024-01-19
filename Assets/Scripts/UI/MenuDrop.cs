@@ -9,6 +9,7 @@ public class MenuDrop : MonoBehaviour
 {   
     [SerializeField] private GameObject panel;
     [SerializeField] private Button selectionButton;
+    [SerializeField] private Animator deathAnim;
 
     void Start () {
         Cursor.visible = false;
@@ -23,6 +24,10 @@ public class MenuDrop : MonoBehaviour
             panel.SetActive(true);
             selectionButton.Select();
         }
+    }
+
+    public void PlayDeathAnim() {
+        deathAnim.Play("Close");
     }
 
     public void ClosePanel() {

@@ -30,7 +30,6 @@ public class Controller : MonoBehaviour
     private bool alive;
     private GameObject actingObject = null;
     private bool isActing = false;
-    private Animator deathAnim;
 
     public Transform particleOrigin;
     public BoxRay groundRay;
@@ -55,7 +54,6 @@ public class Controller : MonoBehaviour
         contactedPlatforms = new List<Platform> ();
         control = alive = true;
         menuDrop = GameObject.FindGameObjectWithTag("MenuDrop").GetComponent<MenuDrop>();
-        deathAnim = GameObject.FindGameObjectWithTag("DeathAnim").GetComponent<Animator>();
         cmv = GameObject.FindGameObjectWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
         cmv.Follow = transform;
     }
@@ -179,7 +177,7 @@ public class Controller : MonoBehaviour
         for (int i = 0; i < deathEffects.Length; i++) {
             Instantiate(deathEffects[i], transform.position, transform.rotation);
         }
-        deathAnim.Play("Close");
+        menuDrop.PlayDeathAnim();
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

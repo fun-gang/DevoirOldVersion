@@ -33,18 +33,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Exit",
+                    "name": "Put",
                     "type": "Button",
-                    "id": "447375fe-59da-46ac-8008-985dad22d8eb",
+                    "id": "559ffa42-897a-47ca-8e25-31a553600aea",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Put",
+                    "name": "Exit",
                     "type": "Button",
-                    "id": "559ffa42-897a-47ca-8e25-31a553600aea",
+                    "id": "447375fe-59da-46ac-8008-985dad22d8eb",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -263,28 +263,6 @@
                 },
                 {
                     "name": "",
-                    "id": "077d8b12-d968-4a29-b308-c370e305a1b2",
-                    "path": "<Gamepad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Exit",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "340cd95d-7302-49bd-863e-02a38491b21f",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Exit",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "35a288fb-2c0e-4430-abe1-a62459e7af2e",
                     "path": "<Keyboard>/x",
                     "interactions": "",
@@ -324,6 +302,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Put",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "077d8b12-d968-4a29-b308-c370e305a1b2",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Exit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "340cd95d-7302-49bd-863e-02a38491b21f",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Exit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
