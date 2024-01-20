@@ -11,6 +11,8 @@ public class Controller : MonoBehaviour
     // Input system
     private Gameplay controls = null;
     [HideInInspector] public Vector2 movement = Vector2.zero;
+    private PlayerInput plInput;
+    public static string currentDevice;
 
 
     // Components
@@ -42,13 +44,14 @@ public class Controller : MonoBehaviour
 
     private List<Platform> contactedPlatforms;
 
-    
+
     // Effects && Sounds
     public GameObject GroundEffect;
 
     void Awake() {
         // Input init
         controls = new Gameplay();
+        plInput = gameObject.GetComponent<PlayerInput>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         contactedPlatforms = new List<Platform> ();
@@ -77,12 +80,12 @@ public class Controller : MonoBehaviour
 
         anim.SetFloat ("VerticalSpeed", rb.velocity.y);
         anim.SetBool ("IsGrounded", isGrounded);
+
+        currentDevice = plInput.currentControlScheme;
     }
 
     private void OnMovePerformed(InputAction.CallbackContext value) => movement = value.ReadValue<Vector2>();
     private void OnMoveCanceled(InputAction.CallbackContext value) => movement = Vector2.zero;
-    
-    
     
     void TryJump () {
         if (isGrounded && (Time.time - jumpPressTime) < bufferingTime)  {
@@ -144,14 +147,14 @@ public class Controller : MonoBehaviour
     }
 
     void OnTriggerStay2D(Collider2D collision) {
-        if (collision.gameObject.tag == "Interactive" && !isActing) {
-            if (collision.gameObject.GetComponent<Gun>() != null) {
-                actingObject = collision.gameObject;
+        if (collision.gameObject.tag == "Interactive") {
+            if (isActing) {
+                if (actingObject != null) actingObject.BroadcastMessage("HideHint");
             }
-            else if (collision.gameObject.GetComponent<CarryingObject>() != null) {
+            else {
                 actingObject = collision.gameObject;
+                actingObject.BroadcastMessage("ShowHint");
             }
-            else actingObject = collision.gameObject;
         }
     }
 
@@ -190,6 +193,7 @@ public class Controller : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision) {
         if (collision.gameObject.tag == "Interactive" && !isActing) {
+            if (actingObject != null) actingObject.BroadcastMessage("HideHint");
             actingObject = null;
         }
     }

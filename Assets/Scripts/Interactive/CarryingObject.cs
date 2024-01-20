@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class CarryingObject : MonoBehaviour
 {
-    private bool isCarrying = false;
     private GameObject player;
     private Transform boxPos;
     private float defaultSpeed = 0;
-    private float playerSpeed = 0;
     private BoxCollider2D boxColl;
     public LayerMask groundLayer;
     public Transform origin;
