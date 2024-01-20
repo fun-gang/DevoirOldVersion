@@ -1134,11 +1134,11 @@ MonoBehaviour:
     start: {fileID: 193368893532064088}
     end: {fileID: 5691393157021843298}
   deathEffects:
-  - {fileID: 7799196604996391998, guid: 77c0a439ea9b6e44c9d21244d01cc637, type: 3}
+  - {fileID: 6783663237345777498, guid: df13b67309a8fd74e929fe9a6be28a84, type: 3}
   - {fileID: 956284215900583197, guid: 5c7aec68f100c3249a535a22e4beaea5, type: 3}
   bufferingTime: 0.1
   stepHeight: 0.1
-  GroundEffect: {fileID: 6783663237345777498, guid: a39a8bf1b8a07ac4dbcfd7b05d0bb1a2, type: 3}
+  GroundEffect: {fileID: 6783663237345777498, guid: df13b67309a8fd74e929fe9a6be28a84, type: 3}
 --- !u!61 &720622013169835209
 BoxCollider2D:
   m_ObjectHideFlags: 0
