@@ -149,7 +149,7 @@ public class Controller : MonoBehaviour
     void OnTriggerStay2D(Collider2D collision) {
         if (collision.gameObject.tag == "Interactive") {
             if (isActing) {
-                if (actingObject != null) actingObject.BroadcastMessage("HideHint");
+                actingObject.BroadcastMessage("HideHint");
             }
             else {
                 actingObject = collision.gameObject;
@@ -165,13 +165,13 @@ public class Controller : MonoBehaviour
             }
             else actingObject.SendMessage("Act");
             isActing = true;
+            actingObject.BroadcastMessage("HideHint");
         }
     }
 
     private void Put(InputAction.CallbackContext value) {
-        if (actingObject != null) {
+        if (actingObject != null && isActing) {
             actingObject.SendMessage("Stop");
-            actingObject = null;
             isActing = false;
         }
     }
@@ -193,7 +193,8 @@ public class Controller : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision) {
         if (collision.gameObject.tag == "Interactive" && !isActing) {
-            if (actingObject != null) actingObject.BroadcastMessage("HideHint");
+            actingObject = collision.gameObject;
+            actingObject.BroadcastMessage("HideHint");
             actingObject = null;
         }
     }

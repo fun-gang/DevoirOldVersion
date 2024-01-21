@@ -11,6 +11,9 @@ public class OptionsMenu : MonoBehaviour
     public TMPro.TMP_Dropdown resolutionDropDown;
     Resolution[] resolutions;
 
+    [HideInInspector] public static int gamepadDefault;
+    public Animator gamepadCursorAnim;
+
     void Start()
     {
         resolutions = Screen.resolutions;
@@ -33,6 +36,14 @@ public class OptionsMenu : MonoBehaviour
         resolutionDropDown.AddOptions(options);
         resolutionDropDown.value = currentResolutionIndex;
         resolutionDropDown.RefreshShownValue();
+
+        if (PlayerPrefs.HasKey("Gamepad")) {
+            gamepadDefault = PlayerPrefs.GetInt("Gamepad");
+        } 
+        else {
+            PlayerPrefs.SetInt("Gamepad", gamepadDefault);
+        }
+        ChangeGamepadDefaultUI();
     }
     public void SetResolution(int resolutionIndex)
     {
@@ -46,5 +57,20 @@ public class OptionsMenu : MonoBehaviour
     public void SetFullScreen(bool isFullScreen)
     {
         Screen.fullScreen = isFullScreen;
+    }
+
+    public void SetGamepadType(int gamepadInd) {
+        gamepadDefault = gamepadInd;
+        PlayerPrefs.SetInt("Gamepad", gamepadDefault);
+        ChangeGamepadDefaultUI();
+    }
+
+    private void ChangeGamepadDefaultUI() {
+        if (gamepadDefault == 0) {
+            gamepadCursorAnim.Play("PS");
+        }
+        else if (gamepadDefault == 1) {
+            gamepadCursorAnim.Play("XB");
+        }
     }
 }

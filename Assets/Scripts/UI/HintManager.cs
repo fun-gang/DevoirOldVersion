@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class HintManager : MonoBehaviour
 {
     public Sprite keyboard;
-    public Sprite gamepad;
+    public Sprite gamepadPS;
+    public Sprite gamepadXB;
     public Image img;
 
     void Start() {
@@ -14,9 +15,10 @@ public class HintManager : MonoBehaviour
     }
 
     public void ShowHint() {
-        img.color = new Color(255f,1f,1f,0.5f);
+        img.color = new Color(255f,1f,1f,0.8f);
         if (Controller.currentDevice == "Gamepad") {
-            img.sprite = gamepad;
+            if (OptionsMenu.gamepadDefault == 0) img.sprite = gamepadPS;
+            else if (OptionsMenu.gamepadDefault == 1) img.sprite = gamepadXB;
         }
         else if (Controller.currentDevice == "Keyboard") {
             img.sprite = keyboard;
