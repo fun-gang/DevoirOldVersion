@@ -12,10 +12,10 @@ public class PlayerBullet : MonoBehaviour {
         rb = GetComponent<Rigidbody2D> ();
         StartCoroutine(DestroyTime(0.8f));
     }
-    void Update() {
-        rb.velocity = transform.right * bulletSpeed;
-    }
 
+    void Update() {
+        rb.velocity = Vector3.forward * bulletSpeed * Time.fixedDeltaTime;
+    }
 
     void OnCollisionEnter2D(Collision2D collision)
     {

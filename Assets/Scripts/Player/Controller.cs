@@ -13,6 +13,7 @@ public class Controller : MonoBehaviour
     [HideInInspector] public Vector2 movement = Vector2.zero;
     private PlayerInput plInput;
     public static string currentDevice;
+    private Vector2 direction = Vector2.zero;
 
 
     // Components
@@ -21,6 +22,10 @@ public class Controller : MonoBehaviour
     private MenuDrop menuDrop;
     private CinemachineVirtualCamera cmv;
 
+    // WEAPON
+    public Transform gun;
+    private RotGun gunScript;
+    private bool isReadyToFire = true;
 
     // Movement
     private bool isGrounded;
@@ -59,6 +64,7 @@ public class Controller : MonoBehaviour
         menuDrop = GameObject.FindGameObjectWithTag("MenuDrop").GetComponent<MenuDrop>();
         cmv = GameObject.FindGameObjectWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
         cmv.Follow = transform;
+        gunScript = gun.GetComponent<RotGun>();
     }
 
     private void FixedUpdate()
@@ -69,6 +75,7 @@ public class Controller : MonoBehaviour
             ApplyStep ();
             GroundCheck ();
             MovePlayer ();    
+            RotateGun ();
         }
         else {
             anim.SetBool ("IsMoving", false);
@@ -84,8 +91,27 @@ public class Controller : MonoBehaviour
         currentDevice = plInput.currentControlScheme;
     }
 
+    private void RotateGun() {
+        if (direction != Vector2.zero) {
+            gun.transform.rotation = Quaternion.Euler(0, 0, 0);
+            gun.rotation = Quaternion.LookRotation(Vector3.forward, direction);
+            if (isReadyToFire) {
+                isReadyToFire = false;
+                StartCoroutine(FireAndReload());
+            }
+        }
+    }
+
+    IEnumerator FireAndReload() {
+        gunScript.Fire();
+        yield return new WaitForSeconds(gunScript.reloadTime);
+        isReadyToFire = true;
+    }
+
     private void OnMovePerformed(InputAction.CallbackContext value) => movement = value.ReadValue<Vector2>();
     private void OnMoveCanceled(InputAction.CallbackContext value) => movement = Vector2.zero;
+    private void OnDirectionPerformed(InputAction.CallbackContext value) => direction = value.ReadValue<Vector2>();
+    private void OnDirectionCanceled(InputAction.CallbackContext value) => direction = Vector2.zero;
     
     void TryJump () {
         if (isGrounded && (Time.time - jumpPressTime) < bufferingTime)  {
@@ -207,6 +233,8 @@ public class Controller : MonoBehaviour
         controls.Enable();
         controls.Player.Move.performed += OnMovePerformed;
         controls.Player.Move.canceled += OnMoveCanceled;
+        controls.Player.Direction.performed += OnDirectionPerformed;
+        controls.Player.Direction.canceled += OnDirectionCanceled;
         controls.Player.Jump.performed += PressJump;
         controls.Player.Jump.canceled += ReleaseJump;
         controls.Player.Act.performed += Act;
@@ -218,6 +246,8 @@ public class Controller : MonoBehaviour
         controls.Disable();
         controls.Player.Move.performed -= OnMovePerformed;
         controls.Player.Move.canceled -= OnMoveCanceled;
+        controls.Player.Direction.performed -= OnDirectionPerformed;
+        controls.Player.Direction.canceled -= OnDirectionCanceled;
         controls.Player.Jump.performed -= PressJump;
         controls.Player.Jump.canceled -= ReleaseJump;
         controls.Player.Exit.performed -= menuDrop.OpenPanel;

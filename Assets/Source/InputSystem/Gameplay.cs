@@ -71,6 +71,15 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Direction"",
+                    ""type"": ""Value"",
+                    ""id"": ""8d8de89d-3e2f-48f1-ae04-14d4e90e76d0"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -346,6 +355,17 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b7dcddb7-c303-4e6a-b8ba-d23e1438e9f3"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Direction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -899,6 +919,11 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
                     ""devicePath"": ""<Keyboard>"",
                     ""isOptional"": false,
                     ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
                 }
             ]
         },
@@ -922,6 +947,7 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
         m_Player_Act = m_Player.FindAction("Act", throwIfNotFound: true);
         m_Player_Put = m_Player.FindAction("Put", throwIfNotFound: true);
         m_Player_Exit = m_Player.FindAction("Exit", throwIfNotFound: true);
+        m_Player_Direction = m_Player.FindAction("Direction", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1000,6 +1026,7 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Act;
     private readonly InputAction m_Player_Put;
     private readonly InputAction m_Player_Exit;
+    private readonly InputAction m_Player_Direction;
     public struct PlayerActions
     {
         private @Gameplay m_Wrapper;
@@ -1009,6 +1036,7 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
         public InputAction @Act => m_Wrapper.m_Player_Act;
         public InputAction @Put => m_Wrapper.m_Player_Put;
         public InputAction @Exit => m_Wrapper.m_Player_Exit;
+        public InputAction @Direction => m_Wrapper.m_Player_Direction;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1033,6 +1061,9 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
             @Exit.started += instance.OnExit;
             @Exit.performed += instance.OnExit;
             @Exit.canceled += instance.OnExit;
+            @Direction.started += instance.OnDirection;
+            @Direction.performed += instance.OnDirection;
+            @Direction.canceled += instance.OnDirection;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1052,6 +1083,9 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
             @Exit.started -= instance.OnExit;
             @Exit.performed -= instance.OnExit;
             @Exit.canceled -= instance.OnExit;
+            @Direction.started -= instance.OnDirection;
+            @Direction.performed -= instance.OnDirection;
+            @Direction.canceled -= instance.OnDirection;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1212,6 +1246,7 @@ public partial class @Gameplay: IInputActionCollection2, IDisposable
         void OnAct(InputAction.CallbackContext context);
         void OnPut(InputAction.CallbackContext context);
         void OnExit(InputAction.CallbackContext context);
+        void OnDirection(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
