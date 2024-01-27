@@ -6,15 +6,12 @@ public class PlayerBullet : MonoBehaviour {
     public GameObject particle;
     public float bulletSpeed;
 
-    private Rigidbody2D rb;
-
     void Start() {
-        rb = GetComponent<Rigidbody2D> ();
         StartCoroutine(DestroyTime(0.8f));
     }
 
     void Update() {
-        rb.velocity = Vector3.forward * bulletSpeed * Time.fixedDeltaTime;
+        transform.Translate(Vector2.right * bulletSpeed * Time.fixedDeltaTime);
     }
 
     void OnCollisionEnter2D(Collision2D collision)

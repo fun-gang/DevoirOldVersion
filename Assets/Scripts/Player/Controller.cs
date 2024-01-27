@@ -23,7 +23,7 @@ public class Controller : MonoBehaviour
     private CinemachineVirtualCamera cmv;
 
     // WEAPON
-    public Transform gun;
+    private Transform gun;
     private RotGun gunScript;
     private bool isReadyToFire = true;
 
@@ -64,6 +64,7 @@ public class Controller : MonoBehaviour
         menuDrop = GameObject.FindGameObjectWithTag("MenuDrop").GetComponent<MenuDrop>();
         cmv = GameObject.FindGameObjectWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
         cmv.Follow = transform;
+        gun = GameObject.Find("Gun").transform;
         gunScript = gun.GetComponent<RotGun>();
     }
 
@@ -92,13 +93,20 @@ public class Controller : MonoBehaviour
     }
 
     private void RotateGun() {
-        if (direction != Vector2.zero) {
-            gun.transform.rotation = Quaternion.Euler(0, 0, 0);
-            gun.rotation = Quaternion.LookRotation(Vector3.forward, direction);
-            if (isReadyToFire) {
-                isReadyToFire = false;
-                StartCoroutine(FireAndReload());
-            }
+        if (currentDevice == "Keyboard") {
+            var mousePosition = Input.mousePosition;
+            mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+            var angle = Vector2.Angle(Vector2.right, mousePosition - gun.position);
+            gun.eulerAngles = new Vector3(0f, 0f, gun.position.y < mousePosition.y ? angle : -angle);
+        }
+        else if (currentDevice == "Gamepad") {
+            var angle = Vector2.Angle(Vector2.right, new Vector2(direction.x * 10, direction.y * 10) - new Vector2(gun.position.x, gun.position.y));
+            gun.eulerAngles = new Vector3(0f, 0f, gun.position.y < direction.y * 10 ? angle : -angle);
+        }
+
+        if (isReadyToFire) {
+            isReadyToFire = false;
+            StartCoroutine(FireAndReload());
         }
     }
 

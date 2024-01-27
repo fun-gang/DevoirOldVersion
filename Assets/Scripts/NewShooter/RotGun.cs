@@ -8,6 +8,15 @@ public class RotGun : MonoBehaviour
     public Transform fireOrigin;
     public float reloadTime = 1.1f;
     public GameObject fireSound;
+    private Transform gunPos;
+
+    void Start() {
+        gunPos = GameObject.Find("GunPos").transform;
+    }
+
+    void Update() {
+        transform.position = Vector3.MoveTowards(transform.position, gunPos.position, 1000);
+    }
 
     public void Fire() {
         Instantiate(fireSound);
