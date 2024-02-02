@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerBullet : MonoBehaviour {
     public GameObject particle;
     public float bulletSpeed;
+    [HideInInspector] public float damage;
 
     void Start() {
         StartCoroutine(DestroyTime(0.8f));

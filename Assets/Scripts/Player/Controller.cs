@@ -12,8 +12,7 @@ public class Controller : MonoBehaviour
     private Gameplay controls = null;
     [HideInInspector] public Vector2 movement = Vector2.zero;
     private PlayerInput plInput;
-    public static string currentDevice;
-    private Vector2 direction = Vector2.zero;
+    public static string currentDevice = "Keyboard";
 
 
     // Components
@@ -21,11 +20,6 @@ public class Controller : MonoBehaviour
     private Rigidbody2D rb = null;
     private MenuDrop menuDrop;
     private CinemachineVirtualCamera cmv;
-
-    // WEAPON
-    private Transform gun;
-    private RotGun gunScript;
-    private bool isReadyToFire = true;
 
     // Movement
     private bool isGrounded;
@@ -64,8 +58,6 @@ public class Controller : MonoBehaviour
         menuDrop = GameObject.FindGameObjectWithTag("MenuDrop").GetComponent<MenuDrop>();
         cmv = GameObject.FindGameObjectWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
         cmv.Follow = transform;
-        gun = GameObject.Find("Gun").transform;
-        gunScript = gun.GetComponent<RotGun>();
     }
 
     private void FixedUpdate()
@@ -76,7 +68,6 @@ public class Controller : MonoBehaviour
             ApplyStep ();
             GroundCheck ();
             MovePlayer ();    
-            RotateGun ();
         }
         else {
             anim.SetBool ("IsMoving", false);
@@ -92,34 +83,8 @@ public class Controller : MonoBehaviour
         currentDevice = plInput.currentControlScheme;
     }
 
-    private void RotateGun() {
-        if (currentDevice == "Keyboard") {
-            var mousePosition = Input.mousePosition;
-            mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-            var angle = Vector2.Angle(Vector2.right, mousePosition - gun.position);
-            gun.eulerAngles = new Vector3(0f, 0f, gun.position.y < mousePosition.y ? angle : -angle);
-        }
-        else if (currentDevice == "Gamepad") {
-            var angle = Vector2.Angle(Vector2.right, new Vector2(direction.x * 10, direction.y * 10) - new Vector2(gun.position.x, gun.position.y));
-            gun.eulerAngles = new Vector3(0f, 0f, gun.position.y < direction.y * 10 ? angle : -angle);
-        }
-
-        if (isReadyToFire) {
-            isReadyToFire = false;
-            StartCoroutine(FireAndReload());
-        }
-    }
-
-    IEnumerator FireAndReload() {
-        gunScript.Fire();
-        yield return new WaitForSeconds(gunScript.reloadTime);
-        isReadyToFire = true;
-    }
-
     private void OnMovePerformed(InputAction.CallbackContext value) => movement = value.ReadValue<Vector2>();
     private void OnMoveCanceled(InputAction.CallbackContext value) => movement = Vector2.zero;
-    private void OnDirectionPerformed(InputAction.CallbackContext value) => direction = value.ReadValue<Vector2>();
-    private void OnDirectionCanceled(InputAction.CallbackContext value) => direction = Vector2.zero;
     
     void TryJump () {
         if (isGrounded && (Time.time - jumpPressTime) < bufferingTime)  {
@@ -192,12 +157,17 @@ public class Controller : MonoBehaviour
         }
     }
 
+    public void Sword(InputAction.CallbackContext value) {
+        gameObject.BroadcastMessage("SwordAttack");
+    }
+
+    public void Fire(InputAction.CallbackContext value) {
+        gameObject.BroadcastMessage("FireAttack");
+    }
+
     private void Act(InputAction.CallbackContext value) {
         if (actingObject != null) {
-            if (actingObject.GetComponent<Drone>() != null && control == false) {
-                actingObject.SendMessage("Repair");
-            }
-            else actingObject.SendMessage("Act");
+            actingObject.SendMessage("Act");
             isActing = true;
             actingObject.BroadcastMessage("HideHint");
         }
@@ -241,21 +211,20 @@ public class Controller : MonoBehaviour
         controls.Enable();
         controls.Player.Move.performed += OnMovePerformed;
         controls.Player.Move.canceled += OnMoveCanceled;
-        controls.Player.Direction.performed += OnDirectionPerformed;
-        controls.Player.Direction.canceled += OnDirectionCanceled;
         controls.Player.Jump.performed += PressJump;
         controls.Player.Jump.canceled += ReleaseJump;
         controls.Player.Act.performed += Act;
         controls.Player.Put.performed += Put;
         controls.Player.Exit.performed += menuDrop.OpenPanel;
+
+        controls.Player.Sword.performed += Sword;
+        controls.Player.Fire.performed += Fire;
     }
 
     private void OnDisable() {
         controls.Disable();
         controls.Player.Move.performed -= OnMovePerformed;
         controls.Player.Move.canceled -= OnMoveCanceled;
-        controls.Player.Direction.performed -= OnDirectionPerformed;
-        controls.Player.Direction.canceled -= OnDirectionCanceled;
         controls.Player.Jump.performed -= PressJump;
         controls.Player.Jump.canceled -= ReleaseJump;
         controls.Player.Exit.performed -= menuDrop.OpenPanel;
