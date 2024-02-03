@@ -21,6 +21,10 @@ public class Controller : MonoBehaviour
     private MenuDrop menuDrop;
     private CinemachineVirtualCamera cmv;
 
+    //Sword
+    private bool isReadySword = true;
+    public GameObject[] swordSounds;
+
     // Movement
     private bool isGrounded;
     public float playerSpeed = 0;
@@ -157,8 +161,22 @@ public class Controller : MonoBehaviour
         }
     }
 
-    public void Sword(InputAction.CallbackContext value) {
-        gameObject.BroadcastMessage("SwordAttack");
+    private void Sword(InputAction.CallbackContext value) {
+        if (isReadySword) {
+            isReadySword = false;
+            anim.SetBool("IsAttack", true);
+            RandomSwordSound();
+        }
+    }
+
+    public void SwordAnimDisable() {
+        anim.SetBool("IsAttack", false);
+        isReadySword = true;
+    }
+
+    private void RandomSwordSound() {
+        int rand = Random.Range(0, swordSounds.Length);
+        Instantiate(swordSounds[rand]);
     }
 
     public void Fire(InputAction.CallbackContext value) {
