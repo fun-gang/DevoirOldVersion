@@ -28,20 +28,20 @@ public class Drone : MonoBehaviour
         transform.position = botPos.position;
         isActive = true;
         cmv.Follow = transform;
-        Controller.control = false;
+        Movement.control = false;
         ChangePhysics(false);
     }
 
     public void Stop() {
         isActive = false;
         cmv.Follow = player.transform;
-        Controller.control = true;
+        Movement.control = true;
         ChangePhysics(true);
         rb.velocity = movement = Vector2.zero;
 
         RaycastHit2D ray;
         ray = Physics2D.Raycast(origin.position, Vector2.down, 100, groundLayer); 
-        if (ray != null) {
+        if (ray.collider != null) {
             transform.position = new Vector3(transform.position.x, transform.position.y - ray.distance, 0);
         }
     }
@@ -51,7 +51,7 @@ public class Drone : MonoBehaviour
     }
 
     private void MovePlayer () {
-        movement = player.GetComponent<Controller>().movement;
+        movement = player.GetComponent<PlayerInit>().movement;
         if (movement.x > 0) transform.rotation = Quaternion.Euler(0, 0, 0);
         if (movement.x < 0) transform.rotation = Quaternion.Euler(0, 180, 0);
         rb.velocity = new Vector2(movement.x * speed * Time.fixedDeltaTime * 10, movement.y * speed * Time.fixedDeltaTime * 5);

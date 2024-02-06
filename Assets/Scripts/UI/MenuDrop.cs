@@ -17,8 +17,8 @@ public class MenuDrop : MonoBehaviour
     }
 
     public void OpenPanel(InputAction.CallbackContext value) {
-        if (Controller.control) {
-            Controller.control = false;
+        if (Movement.control) {
+            Movement.control = false;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             panel.SetActive(true);
@@ -31,7 +31,7 @@ public class MenuDrop : MonoBehaviour
     }
 
     public void ClosePanel() {
-        Controller.control = true;
+        Movement.control = true;
         panel.SetActive(false);
     }
     

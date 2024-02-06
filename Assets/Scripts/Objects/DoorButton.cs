@@ -20,7 +20,7 @@ public class DoorButton : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D coll) {
-        if (coll.GetComponent<ObjectConfig>() != null || coll.GetComponent<Controller>() != null) {
+        if (coll.tag == "Player") {
             if (counter == 0) {
                 gameObject.GetComponent<AnimatorBooleanTransition>().SetState(true);
                 indicator.sprite = pressedSprite;
@@ -31,7 +31,7 @@ public class DoorButton : MonoBehaviour
     }
 
     void OnTriggerExit2D(Collider2D coll) {
-        if (coll.GetComponent<ObjectConfig>() != null || coll.GetComponent<Controller>() != null) {
+        if (coll.tag == "Player") {
             counter--;
             if (counter == 0) {
                 gameObject.GetComponent<AnimatorBooleanTransition>().SetState(false);

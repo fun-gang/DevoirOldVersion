@@ -16,11 +16,11 @@ public class HintManager : MonoBehaviour
 
     public void ShowHint() {
         img.color = new Color(255f,1f,1f,0.8f);
-        if (Controller.currentDevice == "Gamepad") {
+        if (PlayerInit.currentDevice == "Gamepad") {
             if (OptionsMenu.gamepadDefault == 0) img.sprite = gamepadPS;
             else if (OptionsMenu.gamepadDefault == 1) img.sprite = gamepadXB;
         }
-        else if (Controller.currentDevice == "Keyboard") {
+        else if (PlayerInit.currentDevice == "Keyboard") {
             img.sprite = keyboard;
         }
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Gun : MonoBehaviour
 {
@@ -9,20 +10,13 @@ public class Gun : MonoBehaviour
     [SerializeField] private float reloadTime;
     [SerializeField] private float damage;
     
-    private Transform gunPos;
     public GameObject bullet;
     public Transform firePos;
     public GameObject[] effects;
     private bool isReady = true;
 
-    void Start() {
-        gunPos = GameObject.FindGameObjectWithTag("GunPos").transform;
-        transform.parent = gunPos;
-        transform.localPosition = Vector3.zero;
-    }
-
-    public void FireAttack() {
-        if (isReady) {
+    public void Fire(InputAction.CallbackContext value) {
+        if (isReady && Movement.control) {
             isReady = false;
             StartCoroutine(FireCor());
         }

@@ -17,7 +17,7 @@ public class Chair : MonoBehaviour
         if (!alreadySit) {
             player.transform.position = sitPosition.position;
             RotatePlayer();
-            Controller.control = false;
+            Movement.control = false;
             alreadySit = true;
         }
     }
@@ -31,7 +31,7 @@ public class Chair : MonoBehaviour
     }
 
     public void Stop() {
-        Controller.control = true;
+        Movement.control = true;
         alreadySit = false;
     }
 }
