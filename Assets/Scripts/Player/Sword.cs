@@ -8,13 +8,16 @@ public class Sword : MonoBehaviour
     public Animator playerAnim;
     public GameObject[] swordSounds;
     private bool isReady;
+    public bool isBlock;
 
     void Start() {
         isReady = true;
     }
 
+    void FixedUpdate() => playerAnim.SetBool("isBlock", isBlock);
+
     public void Attack(InputAction.CallbackContext value) {
-        if (isReady && Movement.control) {
+        if (isReady && Movement.control && !isBlock) {
             isReady = false;
             playerAnim.SetBool("IsAttack", true);
             RandomSwordSound();

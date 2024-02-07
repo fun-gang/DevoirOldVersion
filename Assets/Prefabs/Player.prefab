@@ -1655,6 +1655,7 @@ MonoBehaviour:
   - {fileID: 1398693045005446720, guid: 867423b389856244a9299e2d8419e1b3, type: 3}
   - {fileID: 6227402361852934819, guid: df5b9cfcf08542d4586024a956633746, type: 3}
   - {fileID: 2942111793351824107, guid: 7bd217e0886eaea408b6a2b13c507663, type: 3}
+  isBlock: 0
 --- !u!212 &8502570186633912140
 SpriteRenderer:
   m_ObjectHideFlags: 0

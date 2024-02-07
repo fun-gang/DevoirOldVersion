@@ -9,7 +9,7 @@ public class Interactive : MonoBehaviour
     private GameObject actingObject;
    
     public void Act(InputAction.CallbackContext value) {
-        if (actingObject != null) {
+        if (actingObject != null && Movement.control) {
             actingObject.SendMessage("Act");
             isActing = true;
             actingObject.BroadcastMessage("HideHint");
@@ -17,7 +17,7 @@ public class Interactive : MonoBehaviour
     }
 
     public void Put(InputAction.CallbackContext value) {
-        if (actingObject != null && isActing) {
+        if (actingObject != null && isActing && Movement.control) {
             actingObject.SendMessage("Stop");
             isActing = false;
         }

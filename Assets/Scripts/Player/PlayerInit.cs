@@ -38,6 +38,14 @@ public class PlayerInit : MonoBehaviour
 
     void Update() {
         currentDevice = plInpt.currentControlScheme;
+        if (controls.Player.Block.ReadValue<float>() >= InputSystem.settings.defaultButtonPressPoint) {
+            sword.isBlock = true;
+            Movement.control = false;
+        }
+        else {
+            sword.isBlock = false;
+            Movement.control = true;
+        }
     }
 
     public void SwordAnimDisableTo() => sword.SwordAnimDisable();
@@ -58,7 +66,7 @@ public class PlayerInit : MonoBehaviour
         controls.Player.Sword.performed += sword.Attack;
         
         controls.Player.Act.performed += inter.Act;
-        controls.Player.Put.performed += inter.Put;
+        controls.Player.Put.performed += inter.Put;;
     }
 
     private void OnDisable() {
@@ -68,5 +76,10 @@ public class PlayerInit : MonoBehaviour
         controls.Player.Jump.performed -= PressJump;
         controls.Player.Jump.canceled -= ReleaseJump;
         controls.Player.Exit.performed -= menuDrop.OpenPanel;
+        controls.Player.Fire.performed -= gun.Fire;
+        controls.Player.Sword.performed -= sword.Attack;
+        
+        controls.Player.Act.performed -= inter.Act;
+        controls.Player.Put.performed -= inter.Put;
     }
 }
