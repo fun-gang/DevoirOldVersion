@@ -14,9 +14,10 @@ public class Gun : MonoBehaviour
     public Transform firePos;
     public GameObject[] effects;
     private bool isReady = true;
+    public Sword sword;
 
     public void Fire(InputAction.CallbackContext value) {
-        if (isReady && Movement.control) {
+        if (isReady && Movement.control && !sword.isBlock) {
             isReady = false;
             StartCoroutine(FireCor());
         }

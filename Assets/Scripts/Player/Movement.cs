@@ -48,6 +48,8 @@ public class Movement : MonoBehaviour
     private bool isGrounded;
     private float lastGroundedTime = float.NegativeInfinity;
     private Platform contactedPlatform;
+    public Sword sword;
+
 
     void Awake() {
         anim = GetComponent<Animator>();
@@ -77,7 +79,7 @@ public class Movement : MonoBehaviour
     }    
     
     private void TryJump () {
-        if (isGrounded && (Time.time - plInput.jumpPressTime) < bufferingTime) {
+        if (isGrounded && (Time.time - plInput.jumpPressTime) < bufferingTime && !sword.isBlock) {
             rb.velocity = Vector2.up * jumpInitialVelocity;
             if (contactedPlatform != null) rb.velocity += Vector2.up * contactedPlatform.velocity.y;
             plInput.jumpStartTime = Time.time;
@@ -96,7 +98,7 @@ public class Movement : MonoBehaviour
     private void MovePlayer () {
         float velocity = rb.velocity.x;
 
-        if (plInput.movement.x != 0) {
+        if (plInput.movement.x != 0 && !sword.isBlock) {
             direction = Mathf.Sign (plInput.movement.x);
             Vector3 scale = transform.localScale;
             scale.x = Mathf.Abs(scale.x) * direction;
