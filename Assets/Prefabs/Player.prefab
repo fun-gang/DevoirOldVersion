@@ -684,7 +684,7 @@ Transform:
   m_GameObject: {fileID: 3090536595134243443}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.2007, y: -0.6538, z: 0}
+  m_LocalPosition: {x: -0.2007, y: -0.7146001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -715,7 +715,7 @@ Transform:
   m_GameObject: {fileID: 3778794338357363817}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.40557, y: -0.6462, z: 0}
+  m_LocalPosition: {x: 0.40557, y: -0.707, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1235,17 +1235,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 20
-  acceleration: 10
-  deceleration: 10
-  airSpeedMod: 0.5
+  acceleration: 40
+  deceleration: 80
+  airSpeedMod: 1
   airAccelerationMod: 0.5
-  jumpInitialVelocity: 20
-  jumpHoldPower: 50
-  jumpHoldDuration: 0.3
-  jumpHoldEasing: 2
+  jumpInitialVelocity: 3
+  jumpHoldPower: 49
+  jumpHoldDuration: 0.75
+  jumpHoldEasing: 3
   bufferingTime: 0.1
   coyoteTime: 0.05
-  stepHeight: 0.1
+  stepHeight: 0.15
   groundLayer:
     serializedVersion: 2
     m_Bits: 8

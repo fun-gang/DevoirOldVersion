@@ -116,14 +116,27 @@ public class Movement : MonoBehaviour
     }
 
     private void GroundCheck () {
-        if (groundRay.Raycast (groundLayer, out RaycastHit2D ray)) {
+        groundRay.Raycast (groundLayer, out RaycastHit2D hit);
+        hit = Physics2D.Raycast (groundRay.start.position + Vector3.right * (hit.distance - 0.01f), Vector2.up, 0.1f, groundLayer);
+        if (hit.collider != null) {
             lastGroundedTime = Time.time;
-            contactedPlatform = ray.collider.GetComponent<Platform> ();
+            if (hit.collider.GetComponent<Platform>() != null) {
+                contactedPlatform = hit.collider.GetComponent<Platform> ();
+            }
         } else {
             contactedPlatform = null;
         }
         isGrounded = (Time.time - lastGroundedTime) < coyoteTime;
     }
+
+    void OnDrawGizmos () {
+        Gizmos.color = new Color (0.2f, 0.5f, 1f);
+        groundRay.Draw ();
+
+        Gizmos.color = new Color (0.2f, 1f, 0.2f);
+        stepRay.Draw ();
+    }
+
 
     public void ApplyStep () {
         if (rb.velocity.y > 0 || plInput.movement.x == 0) return;
