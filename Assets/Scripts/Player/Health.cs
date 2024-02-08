@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private Rate rt;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    void Start() => rt = GetComponent<Rate>();
+
+    void OnTriggerEnter2D(Collider2D hit) {
+        if (hit.tag == "Hit1" || hit.tag == "Hit2") rt.ChangeRate(0, true);
+    } 
 }
