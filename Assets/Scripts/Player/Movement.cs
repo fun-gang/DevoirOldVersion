@@ -5,7 +5,7 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     [Header ("Movement")]
-    public float movementSpeed = 5;
+    private float movementSpeed = 5;
     public float acceleration = 10;
     public float deceleration = 10;
 
@@ -56,6 +56,7 @@ public class Movement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         plInput = GetComponent<PlayerInit>();
         control = true;
+        movementSpeed = PlayerStats.PlayerSpeed;
     }
 
     private void FixedUpdate()

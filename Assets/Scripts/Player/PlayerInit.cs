@@ -26,6 +26,7 @@ public class PlayerInit : MonoBehaviour
     public Gun gun;
     public Sword sword;
     public Interactive inter;
+    private Health health;
 
     void Awake() {
         controls = new Gameplay();
@@ -34,6 +35,8 @@ public class PlayerInit : MonoBehaviour
         menuDrop = GameObject.FindGameObjectWithTag("MenuDrop").GetComponent<MenuDrop>();
         cvm = GameObject.FindGameObjectWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
         cvm.Follow = gameObject.transform;
+
+        health = GetComponent<Health>();
     }
 
     void Update() {
@@ -45,7 +48,6 @@ public class PlayerInit : MonoBehaviour
         else sword.isBlock = false;
     }
 
-    public void SwordAnimDisableTo() => sword.SwordAnimDisable();
     void OnMovePerformed(InputAction.CallbackContext value) => movement = value.ReadValue<Vector2>();
     void OnMoveCanceled(InputAction.CallbackContext value) => movement = Vector2.zero;
 
@@ -63,7 +65,8 @@ public class PlayerInit : MonoBehaviour
         controls.Player.Sword.performed += sword.Attack;
         
         controls.Player.Act.performed += inter.Act;
-        controls.Player.Put.performed += inter.Put;;
+        controls.Player.Put.performed += inter.Put;
+        controls.Player.Heal.performed += health.RecoverHP;
     }
 
     private void OnDisable() {
