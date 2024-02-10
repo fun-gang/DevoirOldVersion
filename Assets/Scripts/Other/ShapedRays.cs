@@ -26,6 +26,12 @@ public class SegmentRay {
 
     public virtual bool Raycast (LayerMask layerMask) => Raycast (layerMask, out RaycastHit2D hit);
 
+    public virtual bool Raycast (LayerMask layerMask, out Collider2D collider) {
+        Raycast (layerMask, out RaycastHit2D hit);
+        collider = hit.collider;
+        return collider != null;
+    }
+
     public bool Raycast () => Raycast (Physics2D.DefaultRaycastLayers);
 }
 
@@ -36,6 +42,11 @@ public class BoxRay : SegmentRay {
     }
 
     public override bool Raycast (LayerMask layerMask) {
-        return Physics2D.OverlapArea (start.position, end.position, layerMask) != null;
+        return Raycast (layerMask, out Collider2D collider);
+    }
+
+    public override bool Raycast (LayerMask layerMask, out Collider2D collider) {
+        collider = Physics2D.OverlapArea (start.position, end.position, layerMask);
+        return collider != null;
     }
 }

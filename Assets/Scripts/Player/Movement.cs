@@ -47,7 +47,6 @@ public class Movement : MonoBehaviour
     // Jump
     private bool isGrounded;
     private float lastGroundedTime = float.NegativeInfinity;
-    private Platform contactedPlatform;
     public Sword sword;
 
 
@@ -76,13 +75,11 @@ public class Movement : MonoBehaviour
         anim.SetFloat ("VerticalSpeed", rb.velocity.y);
         anim.SetBool ("IsGrounded", isGrounded);
 
-        //if (contactedPlatform != null) rb.velocity += Vector2.right * contactedPlatform.velocity.x;
     }    
     
     private void TryJump () {
         if (isGrounded && (Time.time - plInput.jumpPressTime) < bufferingTime && !sword.isBlock) {
             rb.velocity = Vector2.up * jumpInitialVelocity;
-            if (contactedPlatform != null) rb.velocity += Vector2.up * contactedPlatform.velocity.y;
             plInput.jumpStartTime = Time.time;
             lastGroundedTime = float.NegativeInfinity;
         }
@@ -117,16 +114,7 @@ public class Movement : MonoBehaviour
     }
 
     private void GroundCheck () {
-        groundRay.Raycast (groundLayer, out RaycastHit2D hit);
-        hit = Physics2D.Raycast (groundRay.start.position + Vector3.right * (hit.distance - 0.01f), Vector2.up, 0.1f, groundLayer);
-        if (hit.collider != null) {
-            lastGroundedTime = Time.time;
-            if (hit.collider.GetComponent<Platform>() != null) {
-                contactedPlatform = hit.collider.GetComponent<Platform> ();
-            }
-        } else {
-            contactedPlatform = null;
-        }
+        if (groundRay.Raycast (groundLayer)) lastGroundedTime = Time.time;
         isGrounded = (Time.time - lastGroundedTime) < coyoteTime;
     }
 
